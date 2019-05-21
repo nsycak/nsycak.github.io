@@ -1,54 +1,83 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Startup</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Drum Kit</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
-    <!-- Note that the below Bootstrap file is a specific version. If you grab the most
-    current from Bootstrap website, you will see the button grow transition being a lot faster
-    than in my video. Use whichever style sheet you like best! -->
-    <!-- Bootstrap CSS from a CDN. This way you don't have to include the bootstrap file yourself -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <div class="keys">
+    <div data-key="65" class="key">
+      <kbd>A</kbd>
+      <span class="sound">clap</span>
+    </div>
+    <div data-key="83" class="key">
+      <kbd>S</kbd>
+      <span class="sound">hihat</span>
+    </div>
+    <div data-key="68" class="key">
+      <kbd>D</kbd>
+      <span class="sound">kick</span>
+    </div>
+    <div data-key="70" class="key">
+      <kbd>F</kbd>
+      <span class="sound">openhat</span>
+    </div>
+    <div data-key="71" class="key">
+      <kbd>G</kbd>
+      <span class="sound">boom</span>
+    </div>
+    <div data-key="72" class="key">
+      <kbd>H</kbd>
+      <span class="sound">ride</span>
+    </div>
+    <div data-key="74" class="key">
+      <kbd>J</kbd>
+      <span class="sound">snare</span>
+    </div>
+    <div data-key="75" class="key">
+      <kbd>K</kbd>
+      <span class="sound">tom</span>
+    </div>
+    <div data-key="76" class="key">
+      <kbd>L</kbd>
+      <span class="sound">tink</span>
+    </div>
+  </div>
 
-    <!-- My own stylesheet -->
-    <link href="style.css" rel="stylesheet">
-  </head>
-  <body>
-    <header class="startup text-center text-white d-flex">
-      <div class="container my-auto">
-        <div class="row">
-          <div class="col-lg-12 my-auto">
-            <h1 class="text-uppercase faded">
-              <strong>the biggest startup event of the year</strong>
-            </h1>
-            <hr>
-          </div>
-          <div class="col-lg-12 my-auto">
-                            <!-- Begin Mailchimp Signup Form -->
-                <style type="text/css">
-                  #mc_embed_signup{ clear:left; font:14px Helvetica,Arial,sans-serif; }
-                  /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                     We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                </style>
-                <div id="mc_embed_signup">
-                <form action="https://coolwebsite.us20.list-manage.com/subscribe/post?u=d080803a472fa2be5cd89ef21&amp;id=98970d24a7" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                    <div id="mc_embed_signup_scroll">
-                 
-                 
-                    <div class="clear"><input class="btn btn-primary btn-xl" type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                    </div>
-                </form>
-                </div>
+  <audio data-key="65" src="sounds/clap.wav"></audio>
+  <audio data-key="83" src="sounds/hihat.wav"></audio>
+  <audio data-key="68" src="sounds/kick.wav"></audio>
+  <audio data-key="70" src="sounds/openhat.wav"></audio>
+  <audio data-key="71" src="sounds/boom.wav"></audio>
+  <audio data-key="72" src="sounds/ride.wav"></audio>
+  <audio data-key="74" src="sounds/snare.wav"></audio>
+  <audio data-key="75" src="sounds/tom.wav"></audio>
+  <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<!--End mc_embed_signup-->
-           
-          </div>
-        </div>
-      </div>
-    </header>
+<script>
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
 
-  </body>
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    if (!audio) return;
 
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+</script>
+
+
+</body>
 </html>
